@@ -1,32 +1,64 @@
+// File: App.js
 import React from 'react';
-import { View, Text, FlatList, StyleSheet } from 'react-native';
+import { View, SectionList, StyleSheet, FlatList, Text } from 'react-native';
+import { renderSectionHeader, renderItem } from './components/itemSectionList';
+import { notificationsData } from './data/notificationsSectionList';
 
-export default function App() {
+import Icon from 'react-native-vector-icons/MaterialIcons';
+import notifications from './data/notifications'; // Import dữ liệu
+
+const App = () => {
+  const renderItem1 = ({ item }) => <NotificationItem item={item} />;
+
+
+
   return (
     <View style={styles.container}>
-      <View style={styles.square}>
-        <Text style={styles.text}>Hello, world</Text>
+      {/* Header tiêu đề */}
+      <View style={styles.header}>
+        <Text style={styles.headerText}>Thông báo</Text>
       </View>
+
+      {/* Danh sách thông báo */}
+      <FlatList
+        data={notifications}
+        keyExtractor={(item) => item.id}
+        renderItem={renderItem}
+        contentContainerStyle={styles.listContainer}
+      />
+      <Text style={styles.headerText}>Section list</Text>
+      <SectionList
+        sections={notificationsData}
+        keyExtractor={(item) => item.id}
+        renderSectionHeader={renderSectionHeader}
+        renderItem={renderItem}
+        contentContainerStyle={styles.listContainer}
+      />
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#f0f0f0', // Màu nền cho toàn bộ màn hình
+    backgroundColor: '#f8f9fa',
   },
-  square: {
-    width: 300, // Chiều rộng hình vuông
-    height: 300, // Chiều cao hình vuông
-    backgroundColor: 'gray',
-    justifyContent: 'center',
-    alignItems: 'center',
+  header: {
+    backgroundColor: '#ffffff',
+    padding: 16,
+    borderBottomWidth: 1,
+    borderBottomColor: '#dddddd',
   },
-  text: {
-    color: 'white', // Màu chữ
-    fontSize: 40,
+  headerText: {
+    top: 20,
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#333333',
+    textAlign: 'center',
+  },
+  listContainer: {
+    padding: 16,
   },
 });
+
+export default App;
