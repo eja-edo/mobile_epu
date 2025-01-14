@@ -21,9 +21,14 @@
   - Mỗi đối tượng có thể chứa các thuộc tính tùy ý để hiển thị.
 
   ```javascript
-  const flatListData = [
-    { id: '1', title: 'Item 1', description: 'Description 1' },
-    { id: '2', title: 'Item 2', description: 'Description 2' },
+const notifications = [
+    {
+        id: '1',
+        title: 'Xác nhận nhu cầu khách hàng',
+        description: 'Vũ Nguyễn Duy Anh sắp đến hạn lúc 05/05/2023 10:30', // Thay đổi thời gian
+        time: '05/05/2023, 10:30', // Thay đổi thời gian
+        status: 'done',
+    },
   ];
   ```
 
@@ -34,18 +39,21 @@
 
   ```javascript
   const sectionListData = [
-    {
-      title: 'Group 1',
-      data: [
-        { id: '1', title: 'Item 1', description: 'Description 1' },
-        { id: '2', title: 'Item 2', description: 'Description 2' },
-      ],
-    },
-    {
-      title: 'Group 2',
-      data: [
-        { id: '3', title: 'Item 3', description: 'Description 3' },
-      ],
+            title: 'Hôm nay',
+        data: [
+            {
+                id: '1',
+                title: 'Xác nhận nhu cầu khách hàng',
+                description: 'Vũ Nguyễn Duy Anh sắp đến hạn lúc 05/05/2023 10:30',
+                time: '05/05/2023, 10:30',
+            },
+            {
+                id: '2',
+                title: 'Bạn có khách hàng mới!',
+                description: 'Chúc mừng bạn, bạn có khách hàng mới. Hãy mau chóng liên lạc ngay.',
+                time: '07/05/2023, 09:00',
+            },
+        ],
     },
   ];
   ```
