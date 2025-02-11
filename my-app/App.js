@@ -1,39 +1,56 @@
-// File: App.js
-import React from 'react';
-import { View, SectionList, StyleSheet, FlatList, Text } from 'react-native';
-import { renderSectionHeader, renderItem } from './components/itemSectionList';
-import { notificationsData } from './data/notificationsSectionList';
-
-import Icon from 'react-native-vector-icons/MaterialIcons';
-import notifications from './data/notifications'; // Import dữ liệu
+import React, { useState } from 'react';
+import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 
 const App = () => {
-  const renderItem1 = ({ item }) => <NotificationItem item={item} />;
+  // State quản lý màu nền
+  const [backgroundColor, setBackgroundColor] = useState('#ffffff');
 
-
+  // Hàm xử lý thay đổi màu
+  const handleColorChange = (newColor) => {
+    setBackgroundColor(newColor);
+  };
 
   return (
-    <View style={styles.container}>
-      {/* Header tiêu đề */}
-      <View style={styles.header}>
-        <Text style={styles.headerText}>Thông báo</Text>
-      </View>
+    <View style={[styles.container, { backgroundColor }]}>
+      {/* Các button thay đổi màu */}
+      <View style={styles.buttonContainer}>
+        <TouchableOpacity
+          style={[styles.button, { backgroundColor: '#ff0000' }]}
+          onPress={() => handleColorChange('#ff0000')}>
+          <Text style={styles.buttonText}>Đỏ</Text>
+        </TouchableOpacity>
 
-      {/* Danh sách thông báo */}
-      <FlatList
-        data={notifications}
-        keyExtractor={(item) => item.id}
-        renderItem={renderItem}
-        contentContainerStyle={styles.listContainer}
-      />
-      <Text style={styles.headerText}>Section list</Text>
-      <SectionList
-        sections={notificationsData}
-        keyExtractor={(item) => item.id}
-        renderSectionHeader={renderSectionHeader}
-        renderItem={renderItem}
-        contentContainerStyle={styles.listContainer}
-      />
+        <TouchableOpacity
+          style={[styles.button, { backgroundColor: '#00ff00' }]}
+          onPress={() => handleColorChange('#00ff00')}>
+          <Text style={styles.buttonText}>Xanh lá</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={[styles.button, { backgroundColor: '#0000ff' }]}
+          onPress={() => handleColorChange('#0000ff')}>
+          <Text style={styles.buttonText}>Xanh dương</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={[styles.button, { backgroundColor: '#000' }]}
+          onPress={() => handleColorChange('#000')}>
+          <Text style={styles.buttonText}>Đen</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={[styles.button, { backgroundColor: '#964B00' }]}
+          onPress={() => handleColorChange('#964B00')}>
+          <Text style={styles.buttonText}>Nâu</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={[styles.button, { backgroundColor: 'rgb(255, 255, 0)' }]}
+          onPress={() => handleColorChange('rgb(255, 255, 0)')}>
+          <Text style={styles.buttonText}>Vàng</Text>
+        </TouchableOpacity>
+
+      </View>
     </View>
   );
 };
@@ -41,23 +58,22 @@ const App = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f8f9fa',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
-  header: {
-    backgroundColor: '#ffffff',
-    padding: 16,
-    borderBottomWidth: 1,
-    borderBottomColor: '#dddddd',
+  buttonContainer: {
+    flexDirection: 'clumn',
+    gap: 20,
   },
-  headerText: {
-    top: 20,
-    fontSize: 18,
+  button: {
+    padding: 15,
+    borderRadius: 8,
+    minWidth: 100,
+    alignItems: 'center',
+  },
+  buttonText: {
+    color: 'white',
     fontWeight: 'bold',
-    color: '#333333',
-    textAlign: 'center',
-  },
-  listContainer: {
-    padding: 16,
   },
 });
 
