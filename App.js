@@ -1,64 +1,74 @@
-import React, { useState } from 'react';
+// filepath: /c:/Users/PC/HomeWork/App.js
+import React, { useContext } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, View, Text, TextInput, KeyboardAvoidingView, Alert } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import CustomButton from './components/button';
-import { validatePhoneNumber, formatPhoneNumber } from './components/validation';
-import HomeScreen from './components/screens/HomeScreen';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { AuthProvider, AuthContext } from './components/AuthContext';
+import SignInScreen from './components/screens/SignInScreen';
+import SignUpScreen from './components/screens/SignUpScreen';
+import ExplorerScreen from './components/screens/ExplorerScreen';
+import AccountScreen from './components/screens/AccountScreen';
+import { Ionicons } from '@expo/vector-icons';
 
 const Stack = createStackNavigator();
+const Tab = createBottomTabNavigator();
 
-function LoginScreen({ navigation }) {
-  const [phoneNumber, setPhoneNumber] = useState('');
-
-  const handleContinue = () => {
-    const isValid = validatePhoneNumber(phoneNumber);
-    if (!isValid) {
-      Alert.alert('Thông báo', 'Số điện thoại không đúng định dạng. Vui lòng nhập lại', [{ text: 'OK' }]);
-    } else {
-      Alert.alert('Thông báo', 'Số điện thoại hợp lệ!', [
-        { text: 'OK', onPress: () => navigation.navigate('Home', { phoneNumber }) },
-      ]);
-    }
-  };
-
-  const handleTextChange = (text) => {
-    const formattedText = formatPhoneNumber(text);
-    setPhoneNumber(formattedText);
-  };
-
+function MainTabs() {
   return (
-    <KeyboardAvoidingView style={styles.container} behavior="padding">
-      <View style={styles.header}>
-        <Text style={styles.headerText}>Đăng nhập</Text>
-      </View>
-      <View style={styles.separator} />
-      <View style={styles.inputContainer}>
-        <Text style={styles.label}>Nhập số điện thoại</Text>
-        <Text style={styles.subLabel}>Dùng số điện thoại để đăng nhập hoặc đăng ký tài khoản tại OneHousing Pro</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="Nhập số điện thoại của bạn"
-          keyboardType="phone-pad"
-          value={phoneNumber}
-          onChangeText={handleTextChange}
-        />
-      </View>
-      <CustomButton title="Tiếp tục" onPress={handleContinue} />
-      <StatusBar style="auto" />
-    </KeyboardAvoidingView>
+    <Tab.Navigator
+      screenOptions={({ route }) => ({
+        tabBarIcon: ({ focused, color, size }) => {
+          let iconName;
+
+          if (route.name === 'Explorer') {
+            iconName = focused ? 'fast-food-outline' : 'fast-food-outline';
+          } else if (route.name === 'Account') {
+            iconName = focused ? 'person-circle' : 'person-circle';
+          }
+
+          return <Ionicons name={iconName} size={size} color={color} />;
+        },
+      })}
+      tabBarOptions={{
+        activeTintColor: 'tomato',
+        inactiveTintColor: 'gray',
+      }}
+    >
+      <Tab.Screen name="Explorer" component={ExplorerScreen} options={{ headerTitle: 'Explorer' }} />
+      <Tab.Screen name="Account" component={AccountScreen} options={{ headerTitle: 'Account' }} />
+    </Tab.Navigator>
   );
 }
 
-export default function App() {
+function App() {
+  const { isLoggedIn } = useContext(AuthContext);
+
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Login">
-        <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
-        <Stack.Screen name="Home" component={HomeScreen} options={{ headerTitle: 'Home' }} />
+      <Stack.Navigator initialRouteName={isLoggedIn ? "MainTabs" : "SignIn"}>
+        {!isLoggedIn ? (
+          <>
+            <Stack.Screen name="SignIn" component={SignInScreen} options={{ headerShown: false }} />
+            <Stack.Screen name="SignUp" component={SignUpScreen} options={{ headerTitle: 'Sign Up' }} />
+          </>
+        ) : (
+          <>
+            <Stack.Screen name="MainTabs" component={MainTabs} options={{ headerShown: false }} />
+          </>
+        )}
       </Stack.Navigator>
+      <StatusBar style="auto" />
     </NavigationContainer>
+  );
+}
+
+export default function Main() {
+  return (
+    <AuthProvider>
+      <App />
+    </AuthProvider>
   );
 }
 
@@ -68,39 +78,5 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
-    padding: 20,
-  },
-  header: {
-    marginBottom: 20,
-  },
-  headerText: {
-    fontSize: 24,
-    fontWeight: 'bold',
-  },
-  separator: {
-    height: 1,
-    width: '100%',
-    backgroundColor: '#000',
-    marginVertical: 10,
-  },
-  inputContainer: {
-    width: '100%',
-    marginBottom: 20,
-  },
-  label: {
-    fontSize: 18,
-    marginBottom: 5,
-  },
-  subLabel: {
-    fontSize: 14,
-    color: 'gray',
-    marginBottom: 10,
-  },
-  input: {
-    height: 40,
-    borderColor: 'gray',
-    borderWidth: 1,
-    borderRadius: 5,
-    paddingHorizontal: 10,
   },
 });
