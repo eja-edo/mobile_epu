@@ -1,7 +1,5 @@
-# TH_2
-# Họ tên: Vũ Anh Tuấn
-# MSV:D17CNPM4
-# Thực hành 01/04/2025 (N1): Nectar App - P2 - Login/Signup
-![Screenshot](./1.jpg)
-![Screenshot](./2.jpg)
-![Screenshot](./3.jpg)
+Họ Và Tên: Vũ Nguyễn Duy Anh -22810310266
+
+![alt text](image.png)
+![alt text](image-1.png)
+![alt text](image-2.png)
