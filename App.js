@@ -1,17 +1,26 @@
+// App.js
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import UserListScreen from './UserListScreen';
-import AddUserScreen from './AddUserScreen';
+import SearchScreen from './screens/SearchScreen';
+import FiltersScreen from './screens/FiltersScreen';
 
 const Stack = createStackNavigator();
 
 export default function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="UserList">
-        <Stack.Screen name="UserList" component={UserListScreen} options={{ title: 'Danh sách người dùng' }} />
-        <Stack.Screen name="AddUser" component={AddUserScreen} options={{ title: 'Thêm người dùng' }} />
+      <Stack.Navigator>
+        <Stack.Screen 
+          name="Search" 
+          component={SearchScreen} 
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen 
+          name="Filters" 
+          component={FiltersScreen} 
+          options={{ headerShown: false }}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );
